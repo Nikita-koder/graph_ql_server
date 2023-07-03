@@ -9,6 +9,7 @@ import NotFound from './Pages/NotFound';
 import Favourites from './Pages/Favourites';
 import { ApolloProvider, useQuery } from '@apollo/client';
 import { client } from './apolloClient';
+import { FIND_MANY_CUSTOMERS } from './graphql/querys';
 
 // const sneakersArr = [
 //   {
@@ -34,16 +35,16 @@ import { client } from './apolloClient';
 
 function App() {
   const [sneakersArr, setSneakersArr] = useState([]);
-  const { data, error, loading } = useQuery();
+  // const { data, error, loading } = useQuery(FIND_MANY_CUSTOMERS);
   const [isVisible, setIsVisible] = React.useState(true); //отслеживаем состояние корзины
 
   const [drawerItems, setDrawerItems] = React.useState([]);
 
   const [orderItems, setOrderItems] = React.useState([]);
 
-  useEffect(()=>{
-    setSneakersArr(data.findManyCarts)
-  }, [data])
+  // useEffect(()=>{
+  //   setSneakersArr(data.findManyCarts)
+  // }, [data])
 
   return (
    <ApolloProvider client={client}>
