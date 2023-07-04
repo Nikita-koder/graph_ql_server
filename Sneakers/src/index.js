@@ -5,6 +5,8 @@ import './index.css';
 import App from './App';
 import {Provider} from 'react-redux';
 import {createStore} from 'redux';
+import { ApolloProvider } from '@apollo/client';
+import { client } from './apolloClient';
 
 const defaultState = { //состояние по умолчанию
     cash: 0,
@@ -35,11 +37,13 @@ const store = createStore(reducer);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
+    <ApolloProvider client={client}> 
     <BrowserRouter>
        <Provider store={store}>
             < App />
        </Provider>
     </BrowserRouter>
+    </ApolloProvider> 
 );
 
 // If you want to start measuring performance in your app, pass a function

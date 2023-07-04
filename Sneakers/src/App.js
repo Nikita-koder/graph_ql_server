@@ -9,7 +9,7 @@ import NotFound from './Pages/NotFound';
 import Favourites from './Pages/Favourites';
 import { ApolloProvider, useQuery } from '@apollo/client';
 import { client } from './apolloClient';
-import { FIND_MANY_CUSTOMERS } from './graphql/querys';
+import { FIND_MANY_CUSTOMERS, FIND_MANY_PRODUCTS } from './graphql/querys';
 
 // const sneakersArr = [
 //   {
@@ -35,19 +35,20 @@ import { FIND_MANY_CUSTOMERS } from './graphql/querys';
 
 function App() {
   const [sneakersArr, setSneakersArr] = useState([]);
-  // const { data, error, loading } = useQuery(FIND_MANY_CUSTOMERS);
+  const { data, error, loading } = useQuery(FIND_MANY_PRODUCTS);
   const [isVisible, setIsVisible] = React.useState(true); //отслеживаем состояние корзины
 
   const [drawerItems, setDrawerItems] = React.useState([]);
 
   const [orderItems, setOrderItems] = React.useState([]);
 
-  // useEffect(()=>{
-  //   setSneakersArr(data.findManyCarts)
-  // }, [data])
+  useEffect(()=>{
+    console.log("findManyProducts: ", data)
+    // setSneakersArr(data.findManyProducts)
+  }, [data])
 
   return (
-   <ApolloProvider client={client}>
+  //  <ApolloProvider client={client}>
       <div className="wrapper">
         <Routes>
           <Route path="/" 
@@ -78,7 +79,7 @@ function App() {
         </Routes>
         
       </div>
-    </ApolloProvider>
+    // </ApolloProvider>
   );
 }
 
