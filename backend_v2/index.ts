@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import {ApolloServer} from 'apollo-server'
 // import {ApolloServerPluginLandingPageLocalDefault} from 'apollo-server-core'
-import {resolvers} from "./prisma/generated/type-graphql";
+import {resolvers} from './prisma/generated/type-graphql'
 import { PrismaClient } from '@prisma/client';
 import { buildSchema } from 'type-graphql';
 

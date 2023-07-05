@@ -16,10 +16,17 @@ function Home({drawerItems, setDrawerItems, orderItems, setOrderItems, isVisible
 
     return(
     <>
-      <Header isVisible={isVisible} setIsVisible={setIsVisible} />
+      <Header 
+        isVisible={isVisible}
+        setIsVisible={setIsVisible} />
 
-      <Drawer drawerItems={drawerItems} setDrawerItems={setDrawerItems} isVisible={isVisible} setIsVisible={setIsVisible} 
-        orderItems={orderItems} setOrderItems={setOrderItems} />
+      <Drawer
+        drawerItems={drawerItems}
+        setDrawerItems={setDrawerItems}
+        isVisible={isVisible}
+        setIsVisible={setIsVisible} 
+        orderItems={orderItems}
+        setOrderItems={setOrderItems} />
      
       <div className="content">
             <h1>{inputValue ? `Поиск по: ${inputValue}` : "Все кроссовки"}</h1>

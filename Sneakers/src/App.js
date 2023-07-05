@@ -1,13 +1,12 @@
-
 import React, { useEffect, useState } from 'react';
-import {Routes, Route, Link} from 'react-router-dom';
+import { Routes, Route, Link } from 'react-router-dom';
+import { ApolloProvider, useQuery } from '@apollo/client';
 import Home from './Pages/Home';
 import Orders from './Pages/Orders';
 import Drawer from './Components/Drawer';
 import Form from './Pages/Form';
 import NotFound from './Pages/NotFound';
 import Favourites from './Pages/Favourites';
-import { ApolloProvider, useQuery } from '@apollo/client';
 import { client } from './apolloClient';
 import { FIND_MANY_CUSTOMERS, FIND_MANY_PRODUCTS } from './graphql/querys';
 
@@ -17,9 +16,9 @@ import { FIND_MANY_CUSTOMERS, FIND_MANY_PRODUCTS } from './graphql/querys';
 //     price: 12999,
 //     imageUrl: '/img/sneakers/1.png',
 //   },
-//   { title: 'Мужские Кроссовки Nike Air Max 270', 
-//   price: 15600, 
-//   imageUrl: '/img/sneakers/2.png' 
+//   { title: 'Мужские Кроссовки Nike Air Max 270',
+//   price: 15600,
+//   imageUrl: '/img/sneakers/2.png'
 //   },
 //   {
 //     title: 'Мужские Кроссовки Nike Blazer Mid Suede',
@@ -34,53 +33,74 @@ import { FIND_MANY_CUSTOMERS, FIND_MANY_PRODUCTS } from './graphql/querys';
 // ];
 
 function App() {
+  const [productsData, setProductsData] = useState([]);
+  const {data: getManyProducts, loading: loadingProducts} = useQuery(FIND_MANY_PRODUCTS)
+
   const [sneakersArr, setSneakersArr] = useState([]);
   const { data, error, loading } = useQuery(FIND_MANY_PRODUCTS);
-  const [isVisible, setIsVisible] = React.useState(true); //отслеживаем состояние корзины
+  const [isVisible, setIsVisible] = React.useState(true); // отслеживаем состояние корзины
 
   const [drawerItems, setDrawerItems] = React.useState([]);
 
   const [orderItems, setOrderItems] = React.useState([]);
 
   useEffect(()=>{
-    console.log("findManyProducts: ", data)
+    console.log(getManyProducts);
+    if(getManyProducts){
+      setProductsData(getManyProducts)
+    }
+    
+  }, [getManyProducts])
+  useEffect(() => {
+    console.log('findManyProducts: ', data);
     // setSneakersArr(data.findManyProducts)
-  }, [data])
+  }, [data]);
 
-  return (
-  //  <ApolloProvider client={client}>
+  if (!loading) {
+    return (
+    //  <ApolloProvider client={client}>
       <div className="wrapper">
         <Routes>
-          <Route path="/" 
-            element={
-              <Home 
+          <Route
+            path="/"
+            element={(
+              <Home
                 orderItems={orderItems}
-                setOrderItems={setOrderItems} 
+                setOrderItems={setOrderItems}
                 drawerItems={drawerItems}
-                setDrawerItems={setDrawerItems} isVisible={isVisible} 
+                setDrawerItems={setDrawerItems}
+                isVisible={isVisible}
                 setIsVisible={setIsVisible}
-                sneakersArr={sneakersArr} />
-              }
-            >
-          </Route>
+                sneakersArr={sneakersArr}
+              />
+                )}
+          />
 
-          <Route path="/orders" element={<Orders isVisible={isVisible} setIsVisible={setIsVisible} 
-            drawerItems={drawerItems} orderItems={orderItems} setOrderItems={setOrderItems} />}>
-          </Route>
+          <Route
+            path="/orders"
+            element={(
+              <Orders
+                isVisible={isVisible}
+                setIsVisible={setIsVisible}
+                drawerItems={drawerItems}
+                orderItems={orderItems}
+                setOrderItems={setOrderItems}
+              />
+)}
+          />
 
-          <Route path="/form" element={<Form />}>
-          </Route>
+          <Route path="/form" element={<Form />} />
 
-          <Route path="*" element={<NotFound />}>
-          </Route>
+          <Route path="*" element={<NotFound />} />
 
-          <Route path="/favourites" element={<Favourites isVisible={isVisible} setIsVisible={setIsVisible} />}>
-          </Route>
+          <Route path="/favourites" element={<Favourites isVisible={isVisible} setIsVisible={setIsVisible} />} />
         </Routes>
-        
+
       </div>
     // </ApolloProvider>
-  );
+    );
+  }
+  return null;
 }
 
 export default App;
