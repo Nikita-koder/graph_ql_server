@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
-import { ApolloProvider, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import Home from './Pages/Home';
 import Orders from './Pages/Orders';
 import Drawer from './Components/Drawer';
 import Form from './Pages/Form';
 import NotFound from './Pages/NotFound';
 import Favourites from './Pages/Favourites';
-import { client } from './apolloClient';
-import { FIND_MANY_CUSTOMERS, FIND_MANY_PRODUCTS } from './graphql/querys';
+import { FIND_MANY_PRODUCTS } from './graphql/querys';
 
 // const sneakersArr = [
 //   {
@@ -34,29 +33,27 @@ import { FIND_MANY_CUSTOMERS, FIND_MANY_PRODUCTS } from './graphql/querys';
 
 function App() {
   const [productsData, setProductsData] = useState([]);
-  const {data: getManyProducts, loading: loadingProducts} = useQuery(FIND_MANY_PRODUCTS)
 
   const [sneakersArr, setSneakersArr] = useState([]);
+
+
   const { data, error, loading } = useQuery(FIND_MANY_PRODUCTS);
+
+
   const [isVisible, setIsVisible] = React.useState(true); // отслеживаем состояние корзины
 
   const [drawerItems, setDrawerItems] = React.useState([]);
 
   const [orderItems, setOrderItems] = React.useState([]);
 
-  useEffect(()=>{
-    console.log(getManyProducts);
-    if(getManyProducts){
-      setProductsData(getManyProducts)
-    }
-    
-  }, [getManyProducts])
   useEffect(() => {
     console.log('findManyProducts: ', data);
-    // setSneakersArr(data.findManyProducts)
+    if(data){
+      setSneakersArr(data.products)
+    } 
   }, [data]);
 
-  if (!loading) {
+  if (sneakersArr[0]) {
     return (
     //  <ApolloProvider client={client}>
       <div className="wrapper">

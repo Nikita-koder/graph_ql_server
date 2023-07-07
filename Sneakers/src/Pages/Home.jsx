@@ -16,7 +16,10 @@ function Home({drawerItems, setDrawerItems, orderItems, setOrderItems, isVisible
 
     return(
     <>
-      <Header 
+      {sneakersArr.map((sneakers) => {
+        return <li key={sneakers.id}> {sneakers.name} </li>
+      })}
+      {/* <Header 
         isVisible={isVisible}
         setIsVisible={setIsVisible} />
 
@@ -41,7 +44,7 @@ function Home({drawerItems, setDrawerItems, orderItems, setOrderItems, isVisible
            {sneakersArr.filter((elem) => elem.title.toLowerCase().includes(inputValue.toLowerCase())).map((elem, index) => <Card title={elem.title} price={elem.price} 
            imageUrl={elem.imageUrl} drawerItems={drawerItems} setDrawerItems={setDrawerItems} key={index}/>) }
         </div>
-      </div>
+      </div> */}
     </>
     
 
